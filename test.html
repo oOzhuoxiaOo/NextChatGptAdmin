@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h1>hello</h1>
+    <input class="keyword" type="text">
+    <button class="send">点击发送请求</button>
+    <h2>result</h2>
+    <div class="content"></div>
+
+    <script type="module">
+        import markdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm'
+        const keywordDom = document.querySelector('.keyword')
+        const sendBtnDom = document.querySelector('.send')
+        const contentDom = document.querySelector('.content')
+        sendBtnDom.addEventListener('click', async () => {
+            const keyword = keywordDom.value
+            let resp = await fetch(`http://localhost:3000/api/v1?content=${keyword}`)
+            const reader = resp.body.getReader()
+            const decoder = new TextDecoder()
+            let originText = ''
+            while (1) {
+                const { done, value } = await reader.read()
+                if (done) {
+                    break
+                }
+                const txt = decoder.decode(value)
+                originText += txt
+                let mdHtml = markdownIt().render(originText)
+                contentDom.innerHTML = mdHtml
+                console.log("txt", txt)
+            }
+
+        })
+    </script>
+</body>
+
+</html>
