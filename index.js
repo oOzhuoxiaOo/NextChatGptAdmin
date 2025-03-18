@@ -1,5 +1,5 @@
 const API_URL = 'https://api.deepseek.com/v1'; // 替换为实际的API URL
-const API_KEY = 'sk-a11cc5d677e5442d87b5ccf605352ced'; // 替换为实际的API密钥
+import { API_KEY } from "./config"; // 替换为实际的API密钥
 import express from "express";
 import cors from "cors"; // 引入cors库
 import OpenAI from "openai";
@@ -43,8 +43,8 @@ async function requestOpenAi(content) {
     return completion;
 }
 
-app.listen(3000, () => {
-    console.log(`Example app listening at http://localhost:3000`);
+app.listen(8000, () => {
+    console.log(`Example app listening at http://localhost:8000`);
 });
 
 
